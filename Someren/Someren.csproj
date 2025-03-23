@@ -6,8 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="linq2db.SqlServer.MS" Version="5.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Views\Students\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Students\" />
+  </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@ namespace Someren
             builder.Services.AddSingleton<IRoomsRepository, DbRoomsRepository>();
             builder.Services.AddSingleton<IRoomsRepository, DbRoomsRepository>();
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IStudentsRepository, DbStudentsRepository>();
 
             var app = builder.Build();
 

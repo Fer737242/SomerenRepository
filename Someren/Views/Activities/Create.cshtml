@@ -1,0 +1,28 @@
+﻿@model Someren.Models.Activities
+@{
+    ViewData["Title"] = "Create Activity";
+}
+
+<div class="container container-main">
+    <h1 class="text-center">Create Activity</h1>
+
+    <form asp-action="Create" method="POST" class="mt-4">
+        <div class="mb-3">
+            <label for="ActivityName" class="form-label">Activity Name:</label>
+            <input type="text" id="ActivityName" name="ActivityName" class="form-control" required value="@(Model != null ? Model.ActivityName : "")" />
+        </div>
+
+        <div class="mb-3">
+            <label for="StartTime" class="form-label">Start Time:</label>
+            <input type="text" id="StartTime" name="StartTime" class="form-control" required placeholder="HH:MM" pattern="(?:[01]\d|2[0-3]):[0-5]\d" />
+
+        </div>
+
+        <div class="mb-3">
+            <label for="StartDate" class="form-label">Start Date:</label>
+            <input type="text" id="StartDate" name="StartDate" class="form-control" required placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Create Activity</button>
+    </form>
+</div>

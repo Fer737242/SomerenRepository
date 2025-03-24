@@ -450,7 +450,6 @@ logs/
 
 # Ignore C# specific files
 project.lock.json
-appsettings*.json
 secrets.json
 *.user
 *.suo

@@ -1,0 +1,26 @@
+﻿@model Someren.Models.Activities
+@{
+    ViewData["Title"] = "Delete Activity";
+}
+
+<h4>Delete Activity</h4>
+<form asp-action="Delete" method="post">
+    <input hidden type="number" name="id" value="@Model?.ActivityID" />
+
+    <div class="form-group py-2">
+        <label for="ActivityName">Activity Name:</label>
+        <input type="text" id="ActivityName" name="ActivityName" class="form-control" value="@Model?.ActivityName" disabled />
+    </div>
+
+    <div class="form-group py-2">
+        <label for="StartTime">Start Time:</label>
+        <input type="text" id="StartTime" name="StartTime" class="form-control" value="@Model?.StartTime.ToString(@"hh\:mm")" disabled />
+    </div>
+
+    <div class="form-group py-2">
+        <label for="StartDate">Start Date:</label>
+        <input type="text" id="StartDate" name="StartDate" class="form-control" value="@Model?.StartDate.ToString("yyyy-MM-dd")" disabled />
+    </div>
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>

@@ -19,6 +19,7 @@
             <th>Activity Name</th>
             <th>Start Time</th>
             <th>Start Date</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -30,11 +31,13 @@
                 <td>@activity.ActivityName</td>
                 <td>@activity.StartTime</td>
                 <td>@activity.StartDate.ToString("dd-MM-yyyy")</td>
+               
 
                 <td>
                     <a href="@Url.Action("Edit", "Activities", new { id = activity.ActivityID })">Edit</a>
                     <a href="@Url.Action("Delete", "Activities", new { id = activity.ActivityID })">Delete</a>
                 </td>
+               
             </tr>
         }
     </tbody>

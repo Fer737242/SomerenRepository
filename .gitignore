@@ -418,7 +418,6 @@ packages/
 .env
 
 # Ignore build and output directories
-dist/
 build/
 out/
 coverage/

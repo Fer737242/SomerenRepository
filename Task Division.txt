@@ -1,0 +1,14 @@
+Marai de Jong - 736148
+Everything related to activities on both assignments
+Fixing IP address problem
+
+Hanieh Jafari - 732370
+Everything related to Students on both assignments
+Fixing GitHub
+
+Denise  sem-Brako - 731780
+Everything related to Rooms on both assignments
+
+Fernando Vazquez Juarez - 737242
+Everything related to Lecturers on both assignments
+Setting the Database and the tables

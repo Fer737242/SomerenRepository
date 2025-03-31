@@ -14,14 +14,14 @@ namespace Someren.Repositories
 
         private Student ReadStudent(SqlDataReader reader)
         {
-            int student_n = (int)reader["Student_n"];
+            int student_n = (int)reader["student_n"];
             string first_name = (string)reader["first_name"];
             string last_name = (string)reader["last_name"];
             int phone_n = (int)reader["phone_n"];
             int classN = (int)reader["classN"];
-            //string isDeleted = (string)reader["IsDeleted"];
+            int voucherCount = (int)reader["VoucherCount"];
 
-            return new Student(student_n, first_name, last_name, phone_n, classN); //isDeleted);
+            return new Student(student_n, first_name, last_name, phone_n, classN, voucherCount);
         }
 
         private Room ReadRoom(SqlDataReader reader)
@@ -61,7 +61,7 @@ namespace Someren.Repositories
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT STUDENT.Student_n, STUDENT.first_name, STUDENT.last_name, STUDENT.phone_n, STUDENT.classN FROM STUDENT INNER JOIN Student_Dormitory ON STUDENT.Student_n = Student_Dormitory.student_number WHERE Student_Dormitory.room_number = @roomNumber";
+                string query = "SELECT STUDENT.Student_n, STUDENT.first_name, STUDENT.last_name, STUDENT.phone_n, STUDENT.classN, STUDENT.VoucherCount FROM STUDENT INNER JOIN Student_Dormitory ON STUDENT.Student_n = Student_Dormitory.student_number WHERE Student_Dormitory.room_number = @roomNumber";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@roomNumber", roomNumber);
 
@@ -85,7 +85,7 @@ namespace Someren.Repositories
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = "SELECT STUDENT.Student_n, STUDENT.first_name, STUDENT.last_name, STUDENT.phone_n, STUDENT.classN FROM STUDENT LEFT JOIN Student_Dormitory ON STUDENT.Student_n = Student_Dormitory.student_number WHERE student_dormitory.room_number IS NULL";
+                string query = "SELECT STUDENT.student_n, STUDENT.first_name, STUDENT.last_name, STUDENT.phone_n, STUDENT.classN, STUDENT.VoucherCount FROM STUDENT LEFT JOIN Student_Dormitory ON STUDENT.Student_n = Student_Dormitory.student_number WHERE student_dormitory.room_number IS NULL";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Connection.Open();

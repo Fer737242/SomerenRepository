@@ -15,10 +15,12 @@
   <ItemGroup>
     <None Remove="Views\Students\" />
     <None Remove="Views\Activities\" />
+    <None Remove="Views\Drinks\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Students\" />
     <Folder Include="Views\Activities\" />
+    <Folder Include="Views\Drinks\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="appsettings.Development.json" />

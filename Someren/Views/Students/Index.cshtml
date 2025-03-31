@@ -4,14 +4,11 @@
     ViewData["Title"] = "Student";
 }
 
-
 <div class="text-center">
     <h1 class="display-4">Students</h1>
     <button class="custom-btn">
         <a href="/Students/Create">Create new</a>
     </button>
-    <!--<p>Number of users in the list: "Model.Count"</p>
-    </div> -->
 </div>
 
 <table class="table mt-4">
@@ -22,26 +19,26 @@
             <th>Last Name</th>
             <th>Phone number</th>
             <th>Class Name</th>
-            <th></th>
+            <th>Vouchers</th>
+            <th>Actions</th>
         </tr>
     </thead>
 
     <tbody>
-        @{
-            foreach (var student in Model)
-            {
-                <tr>
-                    <td>@student.Student_n</td>
-                    <td>@student.First_name</td>
-                    <td>@student.Last_name</td>
-                    <td>@student.Phone_n</td>
-                    <td>@student.ClassN</td>
-                    <td>
-                        <a href="@Url.Action("Edit","Students", new {Student_n = student.Student_n})">Edit</a>
-                        <a href="@Url.Action("Delete", "Students", new {Student_n = student.Student_n})">Delete</a>
-                    </td>
-                </tr>
-            }
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Student_n</td>
+                <td>@student.First_name</td>
+                <td>@student.Last_name</td>
+                <td>@student.Phone_n</td>
+                <td>@student.ClassN</td>
+                <td>@student.VoucherCount</td> <!-- Updated voucher count -->
+                <td>
+                    <a href="@Url.Action("Edit","Students", new {Student_n = student.Student_n})">Edit</a>
+                    <a href="@Url.Action("Delete", "Students", new {Student_n = student.Student_n})">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

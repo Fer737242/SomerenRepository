@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +7,82 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Someren.styles.css" asp-append-version="true" />
+
+    <!-- Blue button to create new lecturer -->
+    <style>
+        .custom-btn {
+            align-items: center;
+            background-color: darkslategrey;
+            color: white; /* White Text */
+            margin: 15px;
+            padding: 8px 15px;
+            border-radius: 5px; /* Slightly rounded */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .custom-btn:hover {
+                background-color: #357ABD; /* Slightly darker blue on hover */
+            }
+
+            .custom-btn a {
+                color: white; /* Ensure text inside link is white */
+                text-decoration: none; /* Remove underline */
+            }
+    </style>
+    <!-- Navi buttons -->
+    <style>
+        .nav-item, .nav-link {
+            color: white !important; /* Force white text */
+            margin: 5px 10px; /* Adds space on both sides */
+            background-color: darkslategrey; /* Soft Blue */
+            border: none;
+            padding: 1px;
+            border-radius: 5px; /* Slightly rounded */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .nav-item:hover {
+                background-color: #357ABD; /* Slightly darker blue on hover */
+            }
+
+            .nav-item a {
+                color: white; /* Ensure text inside link is white */
+                text-decoration: none; /* Remove underline */
+            }
+    </style>
+    <!--Footer -->
+    <style>
+        .footer {
+            background-color: #darkslategrey;
+            color: white
+        }
+    </style>
+    <!-- Delete lecturerbutton -->
+    <style>
+        .delete-btn {
+            color: white;
+            background-color: red;
+        }
+    </style>
+    <!-- Going back from Delete to List -->
+    <style>
+        .btn-primary {
+            color: white !important;
+            background-color: #darkslategrey;
+        }
+
+            .btn-primary:hover {
+                background-color: #357ABD; /* Slightly darker blue on hover */
+            }
+
+            .btn-primary a {
+                color: white; /* Ensure text inside link is white */
+                text-decoration: none; /* Remove underline */
+            }
+
+    </style>
 </head>
 <body>
     <header>
@@ -48,83 +124,9 @@
             @RenderBody()
         </main>
     </div>
-    @* Blue button to create new lecturer *@
-    <style>
-        .custom-btn {
-            align-items: center;
-            background-color: darkslategrey; 
-            color: white; /* White Text */
-            margin: 15px;
-            padding: 8px 15px;
-            border-radius: 5px; /* Slightly rounded */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
 
-            .custom-btn:hover {
-                background-color: #357ABD; /* Slightly darker blue on hover */
-            }
-
-            .custom-btn a {
-                color: white; /* Ensure text inside link is white */
-                text-decoration: none; /* Remove underline */
-            }
-    </style>
-    @*Navi buttons*@
-    <style>
-        .nav-item, .nav-link{
-            color: white !important; /* Force white text */
-            margin: 5px 10px; /* Adds space on both sides */
-            background-color: darkslategrey; /* Soft Blue */
-            border: none;
-            padding: 1px;
-            border-radius: 5px; /* Slightly rounded */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-            .nav-item:hover {
-            background-color: #357ABD; /* Slightly darker blue on hover */
-        }
-
-            .nav-item a {
-            color: white; /* Ensure text inside link is white */
-            text-decoration: none; /* Remove underline */
-        }
-    </style>
-    @*Footer*@
-    <style>
-        .footer {
-            background-color: #darkslategrey;
-            color: white
-        }
-    </style>
-    @*Delete lecturerbutton*@
-    <style>
-        .delete-btn{
-            color:white;
-            background-color: red;
-        }
-    </style>
-    @*Going back from Delete to List*@
-    <style>
-        .btn-primary{
-            color: white !important;
-            background-color: #darkslategrey;
-        }
-
-        .btn-primary:hover {
-            background-color: #357ABD; /* Slightly darker blue on hover */
-        }
-
-        .btn-primary a {
-            color: white; /* Ensure text inside link is white */
-            text-decoration: none; /* Remove underline */
-        }
-
-    </style>
     <footer class="border-top footer" style="background-color: darkslategrey">
-        @*Use border-top footer text-muted IF you wanna make the footer text transparent*@
+        <!--Use border-top footer text-muted IF you wanna make the footer text transparent -->
         <div class="container">
             &copy; 2025 - Someren - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

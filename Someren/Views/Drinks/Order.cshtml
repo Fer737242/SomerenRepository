@@ -1,0 +1,287 @@
+﻿@model OrderViewModel
+@{
+    ViewData["Title"] = "Order";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+
+    <h5>Order Summary</h5>
+    <ul class="list-group mb-3">
+        @if (TempData["OrderSummary"] != null)
+        {
+            var orderSummary = (Dictionary<int, int>)TempData["OrderSummary"];
+            foreach (var drink in orderSummary)
+            {
+                var drinkDetails = Model.Drinks.FirstOrDefault(d => d.Type == drink.Key);
+                <li class="list-group-item">
+                    @drinkDetails.Drink_name: @drink.Value
+                </li>
+            }
+        }
+    </ul>
+
+    <h5>Remaining Vouchers</h5>
+    <p>@TempData["RemainingVouchers"]</p>
+}
+
+<h4>Order More Vouchers</h4>
+<form action="/Drinks/AddVoucher" method="POST">
+    <div class="form-group py-2">
+        <label for="student-voucher">Select Student:</label>
+        <select id="student-voucher" name="student_n" class="form-control" required>
+            <option value="">-- Select a Student --</option>
+            @foreach (var student in Model.Students)
+            {
+                <option value="@student.Student_n">@student.First_name @student.Last_name</option>
+            }
+        </select>
+        </div>
+    <div class="form-group py-2">
+        <label for="voucher-count">Number of Vouchers:</label>
+        <input type="number" id="voucher-count" name="count" class="form-control" min="1" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Vouchers</button>
+</form>
+
+<div class="my-4"></div>
+
+<h4>New Order</h4>
+<form id="order-form" action="/Drinks/Order" method="POST">
+    <div class="form-group py-2">
+        <label for="student">Select Student:</label>
+        <select id="student" name="student_n" class="form-control" required>
+            <option value="">-- Select a Student --</option>
+            @foreach (var student in Model.Students)
+            {
+                <option value="@student.Student_n">@student.First_name @student.Last_name</option>
+            }
+        </select>
+    </div>
+
+    <div class="my-4"></div>
+    <h4 class="text">Drinks List</h4>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Drink Name</th>
+                <th>Price</th>
+                <th>Alcoholic</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var drink in Model.Drinks)
+            {
+                <tr>
+                    <td>@drink.Drink_name</td>
+                    <td>@drink.Price.ToString("C")</td>
+                    <td>@drink.Alcoholic</td>
+                    <td>
+                        <span id="quantity-@drink.Type" class="font-weight-bold">0</span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-success btn-sm increase-quantity" data-type="@drink.Type" data-name="@drink.Drink_name">+</button>
+                        <button type="button" class="btn btn-danger btn-sm decrease-quantity" data-type="@drink.Type">-</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h5>Order Summary</h5>
+    <ul id="order-summary" class="list-group mb-3"></ul>
+
+    <button type="button" class="btn btn-primary" id="place-order-btn">Place Order</button>
+</form>
+
+<!-- Modal for Confirmation -->
+<div class="modal fade" id="orderConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="orderConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderConfirmationModalLabel">Confirm Your Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Here is your order summary:</p>
+                <ul id="modal-order-summary" class="list-group mb-3"></ul>
+                <p>Do you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="confirm-order-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Success -->
+<div class="modal fade" id="orderSuccessModal" tabindex="-1" role="dialog" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderSuccessModalLabel">Order Submitted</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Your order has been submitted successfully!</p>
+                <p>Here is what you ordered:</p>
+                <ul id="success-order-summary" class="list-group mb-3"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const basket = {};
+
+        // Increase quantity functionality
+        document.querySelectorAll(".increase-quantity").forEach(button => {
+            button.addEventListener("click", function () {
+                const type = this.getAttribute("data-type");
+                const drinkName = this.getAttribute("data-name"); // Get the drink name
+                if (!basket[type]) {
+                    basket[type] = { quantity: 0, name: drinkName };
+                }
+                basket[type].quantity++;
+                updateQuantity(type);
+                updateBasket();
+            });
+        });
+
+        // Decrease quantity functionality
+        document.querySelectorAll(".decrease-quantity").forEach(button => {
+            button.addEventListener("click", function () {
+                const type = this.getAttribute("data-type");
+                if (basket[type] && basket[type].quantity > 0) {
+                    basket[type].quantity--;
+                    updateQuantity(type);
+                    updateBasket();
+                }
+            });
+        });
+
+        // Update the quantity displayed in the table
+        function updateQuantity(type) {
+            const quantityElement = document.getElementById(`quantity-${type}`);
+            quantityElement.textContent = basket[type]?.quantity || 0;
+        }
+
+        // Update the order summary
+        function updateBasket() {
+            const orderSummary = document.getElementById("order-summary");
+            orderSummary.innerHTML = "";
+            for (const [type, { quantity, name }] of Object.entries(basket)) {
+                if (quantity > 0) {
+                    const li = document.createElement("li");
+                    li.classList.add("list-group-item");
+                    li.textContent = `${name}: ${quantity}`; 
+                    orderSummary.appendChild(li);
+                }
+            }
+        }
+
+        // Show confirmation modal
+        document.getElementById("place-order-btn").addEventListener("click", function () {
+            const modalOrderSummary = document.getElementById("modal-order-summary");
+            modalOrderSummary.innerHTML = "";
+
+            // Check if any drinks are selected
+            const hasDrinks = Object.values(basket).some(item => item.quantity > 0);
+            if (!hasDrinks) {
+                alert("Please select a drink first.");
+                return;
+            }
+
+            for (const [type, { quantity, name }] of Object.entries(basket)) {
+                if (quantity > 0) {
+                    const li = document.createElement("li");
+                    li.classList.add("list-group-item");
+                    li.textContent = `${name}: ${quantity}`; 
+                    modalOrderSummary.appendChild(li);
+                }
+            }
+            $("#orderConfirmationModal").modal("show");
+        });
+
+        // Cancel button in the confirmation modal
+        document.querySelector("#orderConfirmationModal .btn-secondary").addEventListener("click", function () {
+            $("#orderConfirmationModal").modal("hide");
+        });
+
+        // Close button in the success modal
+        document.querySelector("#orderSuccessModal .btn-primary").addEventListener("click", function () {
+            $("#orderSuccessModal").modal("hide");
+        });
+
+        // Confirm order and show success modal
+        document.getElementById("confirm-order-btn").addEventListener("click", function () {
+            const orderForm = document.getElementById("order-form");
+
+            // Add the basket data to the form as a hidden input
+            const drinksInput = document.createElement("input");
+            drinksInput.type = "hidden";
+            drinksInput.name = "Drinks"; // This will be sent as a JSON string
+            drinksInput.value = JSON.stringify(basket); // Send the basket object as JSON
+            orderForm.appendChild(drinksInput);
+
+            // Submit the form via AJAX to prevent page reload
+            fetch(orderForm.action, {
+                method: "POST",
+                body: new FormData(orderForm)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the success modal with the order summary and remaining vouchers
+                        const successOrderSummary = document.getElementById("success-order-summary");
+                        successOrderSummary.innerHTML = "";
+
+                        for (const [type, { quantity, name }] of Object.entries(basket)) {
+                            if (quantity > 0) {
+                                const li = document.createElement("li");
+                                li.classList.add("list-group-item");
+                                li.textContent = `${name}: ${quantity}`;
+                                successOrderSummary.appendChild(li);
+                            }
+                        }
+
+                        // Display remaining vouchers
+                        const remainingVouchersElement = document.createElement("p");
+                        remainingVouchersElement.textContent = `Remaining Vouchers: ${data.remainingVouchers}`;
+                        successOrderSummary.appendChild(remainingVouchersElement);
+
+                        // Show the success modal
+                        $("#orderConfirmationModal").modal("hide");
+                        $("#orderSuccessModal").modal("show");
+                    } else {
+                        alert(data.error || "Failed to process the order.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while processing the order.");
+                });
+        });
+    });
+</script>

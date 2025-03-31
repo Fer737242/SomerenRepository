@@ -10,6 +10,7 @@ namespace Someren.Repositories
         void Add(Student Student);
         void Update(Student Student);
         void Delete(Student Student);
+        bool DeductVoucher(int student_n, int quantity);       
+        void AddVoucher(int student_n, int count);
     }
 }
-

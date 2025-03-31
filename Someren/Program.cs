@@ -15,6 +15,7 @@ namespace Someren
             builder.Services.AddSingleton<IActivitiesRepository, DbActivitiesRepository>();
             builder.Services.AddSingleton<IRoomsRepository, DbRoomsRepository>();
             builder.Services.AddScoped<IStudentsRepository, DbStudentsRepository>();
+            builder.Services.AddScoped<IDrinkRepository, DbDrinkRepository>();
             
             
 

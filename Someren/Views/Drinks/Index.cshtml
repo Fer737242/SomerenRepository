@@ -1,0 +1,36 @@
+﻿@model List<Someren.Models.Drink>
+
+@{
+    ViewData["Title"] = "Drinks";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Drinks</h1>
+    <button class="custom-btn">
+        <a href="/Drinks/Order">Order</a>
+    </button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Drink Name</th>
+            <th>Alcoholic</th>
+            <th>Price</th>
+            <th>Voucher</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var drink in Model)
+        {
+            <tr>
+                <td>@drink.Type</td>
+                <td>@drink.Drink_name</td>
+                <td>@drink.Alcoholic</td>
+                <td>@drink.Price.ToString("C")</td>
+                <td>@drink.Voucher</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -195,7 +195,7 @@
                 if (quantity > 0) {
                     const li = document.createElement("li");
                     li.classList.add("list-group-item");
-                    li.textContent = `${name}: ${quantity}`; 
+                    li.textContent = `${name}: ${quantity}`; // Use the drink name
                     orderSummary.appendChild(li);
                 }
             }
@@ -217,7 +217,7 @@
                 if (quantity > 0) {
                     const li = document.createElement("li");
                     li.classList.add("list-group-item");
-                    li.textContent = `${name}: ${quantity}`; 
+                    li.textContent = `${name}: ${quantity}`; // Use the drink name
                     modalOrderSummary.appendChild(li);
                 }
             }
@@ -238,50 +238,58 @@
         document.getElementById("confirm-order-btn").addEventListener("click", function () {
             const orderForm = document.getElementById("order-form");
 
-            // Add the basket data to the form as a hidden input
-            const drinksInput = document.createElement("input");
-            drinksInput.type = "hidden";
-            drinksInput.name = "Drinks"; // This will be sent as a JSON string
-            drinksInput.value = JSON.stringify(basket); // Send the basket object as JSON
-            orderForm.appendChild(drinksInput);
+            // Remove existing hidden inputs
+            const existingInputs = orderForm.querySelectorAll('input[name^="Drinks"]');
+            existingInputs.forEach(input => input.remove());
+
+            // Add the basket data to the form as hidden inputs
+            for (const [type, { quantity }] of Object.entries(basket)) {
+                if (quantity > 0) {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = `Drinks[${type}]`; // This will be bound to the dictionary
+                    input.value = quantity;
+                    orderForm.appendChild(input);
+                }
+            }
 
             // Submit the form via AJAX to prevent page reload
             fetch(orderForm.action, {
                 method: "POST",
                 body: new FormData(orderForm)
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Update the success modal with the order summary and remaining vouchers
-                        const successOrderSummary = document.getElementById("success-order-summary");
-                        successOrderSummary.innerHTML = "";
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the success modal with the order summary and remaining vouchers
+                    const successOrderSummary = document.getElementById("success-order-summary");
+                    successOrderSummary.innerHTML = "";
 
-                        for (const [type, { quantity, name }] of Object.entries(basket)) {
-                            if (quantity > 0) {
-                                const li = document.createElement("li");
-                                li.classList.add("list-group-item");
-                                li.textContent = `${name}: ${quantity}`;
-                                successOrderSummary.appendChild(li);
-                            }
+                    for (const [type, { quantity, name }] of Object.entries(basket)) {
+                        if (quantity > 0) {
+                            const li = document.createElement("li");
+                            li.classList.add("list-group-item");
+                            li.textContent = `${name}: ${quantity}`;
+                            successOrderSummary.appendChild(li);
                         }
-
-                        // Display remaining vouchers
-                        const remainingVouchersElement = document.createElement("p");
-                        remainingVouchersElement.textContent = `Remaining Vouchers: ${data.remainingVouchers}`;
-                        successOrderSummary.appendChild(remainingVouchersElement);
-
-                        // Show the success modal
-                        $("#orderConfirmationModal").modal("hide");
-                        $("#orderSuccessModal").modal("show");
-                    } else {
-                        alert(data.error || "Failed to process the order.");
                     }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("An error occurred while processing the order.");
-                });
+
+                    // Display remaining vouchers
+                    const remainingVouchersElement = document.createElement("p");
+                    remainingVouchersElement.textContent = `Remaining Vouchers: ${data.remainingVouchers}`;
+                    successOrderSummary.appendChild(remainingVouchersElement);
+
+                    // Show the success modal
+                    $("#orderConfirmationModal").modal("hide");
+                    $("#orderSuccessModal").modal("show");
+                } else {
+                    alert(data.error || "Failed to process the order.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while processing the order.");
+            });
         });
     });
 </script>

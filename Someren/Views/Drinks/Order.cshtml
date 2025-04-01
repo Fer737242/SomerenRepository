@@ -1,4 +1,4 @@
-﻿@model OrderViewModel
+@model OrderViewModel
 @{
     ViewData["Title"] = "Order";
 }
@@ -86,7 +86,7 @@
             {
                 <tr>
                     <td>@drink.Drink_name</td>
-                    <td>@drink.Price.ToString("C")</td>
+                    <td>@drink.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))</td>
                     <td>@drink.Alcoholic</td>
                     <td>
                         <span id="quantity-@drink.Type" class="font-weight-bold">0</span>

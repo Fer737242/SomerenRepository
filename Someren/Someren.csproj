@@ -18,7 +18,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Students\" />
-    <Folder Include="Views\Activities\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="appsettings.Development.json" />

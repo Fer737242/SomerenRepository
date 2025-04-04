@@ -4,8 +4,8 @@
     {
         public int ActivityID { get; set; }
         public string ActivityName { get; set; }
-        public TimeSpan StartTime { get; set; }  // TimeSpan voor tijd
-        public DateTime StartDate { get; set; }  // DateTime voor datum
+        public TimeSpan StartTime { get; set; }  
+        public DateTime StartDate { get; set; }  
 
         public Activities(int activityId, string activityName, TimeSpan startTime, DateTime startDate)
         {

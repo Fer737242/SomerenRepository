@@ -1,0 +1,91 @@
+﻿@model Someren.Models.ManageParticipantsViewModel
+@{
+	ViewData["Title"] = "Manage Participants";
+}
+
+<div class="container mt-4">
+	<h2 class="text-center">Remove Participants for @Model.Activity.ActivityName</h2>
+
+	<div class="card my-4">
+		<div class="card-header">
+			<h3>Participating Students:</h3>
+		</div>
+		<div class="card-body">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var student in Model.ParticipatingStudents)
+					{
+						<tr>
+							<td>@student.First_name @student.Last_name</td>
+							<td>
+								<form asp-action="RemoveParticipant" method="post" style="display:inline;">
+									<input type="hidden" name="activityId" value="@Model.Activity.ActivityID" />
+									<input type="hidden" name="studentId" value="@student.Student_n" />
+									<button type="submit" class="btn btn-danger btn-sm">
+										<i class="bi bi-x-circle"></i> Remove
+									</button>
+								</form>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="container mt-4">
+		<h2 class="text-center">Add Participants for @Model.Activity.ActivityName</h2>
+
+		@if (TempData["SuccessMessage"] != null)
+		{
+			<div class="alert alert-success">
+				@TempData["SuccessMessage"]
+			</div>
+		}
+
+	</div>
+	<div class="card my-4">
+		<div class="card-header">
+			<h3>Non-Participating Students:</h3>
+		</div>
+		<div class="card-body">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var student in Model.NonParticipatingStudents)
+					{
+						<tr>
+							<td>@student.First_name @student.Last_name</td>
+							<td>
+								<form asp-action="AddParticipant" method="post" style="display:inline;">
+									<input type="hidden" name="activityId" value="@Model.Activity.ActivityID" />
+									<input type="hidden" name="studentId" value="@student.Student_n" />
+									<button type="submit" class="btn btn-success btn-sm">
+										<i class="bi bi-plus-circle"></i> Add
+									</button>
+								</form>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="text-center">
+		<a asp-action="Index" class="btn btn-secondary">
+			<i class="bi bi-arrow-left"></i> Back to Activities List
+		</a>
+	</div>
+</div>

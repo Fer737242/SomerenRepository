@@ -1,12 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
 using Someren.Models;
-using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Someren.Repositories
 {
     public class DbActivitiesRepository : IActivitiesRepository
     {
-        private readonly string? _connectionString;
+        private readonly string _connectionString;
 
         public DbActivitiesRepository(IConfiguration configuration)
         {
@@ -17,13 +17,11 @@ namespace Someren.Repositories
         {
             int activityId = (int)reader["activityID"];
             string activityName = (string)reader["activityName"];
-
             TimeSpan startTime = (TimeSpan)reader["startTime"];
             DateTime startDate = (DateTime)reader["startDate"];
 
             return new Activities(activityId, activityName, startTime, startDate);
         }
-
 
         public List<Activities> GetAll()
         {
@@ -34,7 +32,7 @@ namespace Someren.Repositories
                 string query = "SELECT activityID, activityName, startTime, startDate FROM ACTIVITIES";
                 SqlCommand command = new SqlCommand(query, connection);
 
-                command.Connection.Open();
+                connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -47,26 +45,42 @@ namespace Someren.Repositories
             return activities;
         }
 
+        public Activities GetByActivityId(int activityId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = "SELECT activityID, activityName, startTime, startDate FROM ACTIVITIES WHERE activityID = @activityID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@activityID", activityId);
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return ReadActivities(reader);
+                }
+                return null;
+            }
+        }
+
         public void Add(Activities activity)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = @"INSERT INTO ACTIVITIES (activityName, startTime, startDate) 
-                         VALUES (@activityName, @startTime, @startDate);
-                         SELECT SCOPE_IDENTITY();"; // Haalt het ID van de nieuw toegevoegde record op
+                                 VALUES (@activityName, @startTime, @startDate);
+                                 SELECT SCOPE_IDENTITY();";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@activityName", activity.ActivityName);
                 command.Parameters.AddWithValue("@startTime", activity.StartTime);
                 command.Parameters.AddWithValue("@startDate", activity.StartDate);
 
-                command.Connection.Open();
-                activity.ActivityID = Convert.ToInt32(command.ExecuteScalar()); // Haal het gegenereerde ID correct op
+                connection.Open();
+                activity.ActivityID = Convert.ToInt32(command.ExecuteScalar());
             }
         }
-
-
-
 
         public void Update(Activities activity)
         {
@@ -79,32 +93,10 @@ namespace Someren.Repositories
                 command.Parameters.AddWithValue("@startTime", activity.StartTime);
                 command.Parameters.AddWithValue("@startDate", activity.StartDate);
 
-                command.Connection.Open();
+                connection.Open();
                 int nrOfRowsAffected = command.ExecuteNonQuery();
                 if (nrOfRowsAffected == 0)
                     throw new Exception("No records updated!");
-            }
-        }
-
-        public Activities GetByActivityId(int activityId)
-        {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                string query = "SELECT activityID, activityName, startTime, startDate FROM ACTIVITIES WHERE activityID = @activityID";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@activityID", activityId);
-
-                command.Connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    return ReadActivities(reader);
-                }
-                else
-                {
-                    return null;
-                }
             }
         }
 
@@ -116,7 +108,7 @@ namespace Someren.Repositories
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@activityID", activity.ActivityID);
 
-                command.Connection.Open();
+                connection.Open();
                 int nrOfRowsAffected = command.ExecuteNonQuery();
                 if (nrOfRowsAffected == 0)
                     throw new Exception("No records deleted!");

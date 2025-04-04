@@ -17,6 +17,7 @@ namespace Someren
             builder.Services.AddSingleton<IParticipationRepository, ParticipationRepository>();
             builder.Services.AddScoped<IStudentsRepository, DbStudentsRepository>();
             builder.Services.AddScoped<IParticipationRepository, ParticipationRepository>();
+            builder.Services.AddScoped<IDrinkRepository, DbDrinkRepository>();
 
             var app = builder.Build();
 

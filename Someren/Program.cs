@@ -18,6 +18,7 @@ namespace Someren
             builder.Services.AddScoped<IStudentsRepository, DbStudentsRepository>();
             builder.Services.AddScoped<IParticipationRepository, ParticipationRepository>();
             builder.Services.AddScoped<IDrinkRepository, DbDrinkRepository>();
+            builder.Services.AddScoped<ISupervisedBy, DbSupervisedBy>(); // Add this line
 
             var app = builder.Build();
 

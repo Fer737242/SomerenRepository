@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
-<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Someren", "Someren\Someren.csproj", "{90A68D10-E363-47DB-9C45-39F72DF25626}"
-=======
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Someren", "Someren.csproj", "{C1D2F7DB-D056-11CD-5CC3-08E826BDA565}"
->>>>>>> 096829e (Add .gitignore and initial commit)
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,26 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-<<<<<<< HEAD
 		{90A68D10-E363-47DB-9C45-39F72DF25626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90A68D10-E363-47DB-9C45-39F72DF25626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90A68D10-E363-47DB-9C45-39F72DF25626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90A68D10-E363-47DB-9C45-39F72DF25626}.Release|Any CPU.Build.0 = Release|Any CPU
-=======
-		{C1D2F7DB-D056-11CD-5CC3-08E826BDA565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1D2F7DB-D056-11CD-5CC3-08E826BDA565}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1D2F7DB-D056-11CD-5CC3-08E826BDA565}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1D2F7DB-D056-11CD-5CC3-08E826BDA565}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>> 096829e (Add .gitignore and initial commit)
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-<<<<<<< HEAD
-		SolutionGuid = {E866243E-B711-4421-B0C9-FFDD05F11E73}
-=======
 		SolutionGuid = {56AC62CD-DC73-4719-9BB2-2E489B1D9E6D}
->>>>>>> 096829e (Add .gitignore and initial commit)
 	EndGlobalSection
 EndGlobal

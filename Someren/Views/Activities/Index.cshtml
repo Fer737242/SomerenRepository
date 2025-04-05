@@ -18,6 +18,7 @@
             <th>Activity Name</th>
             <th>Start Time</th>
             <th>Start Date</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -32,7 +33,8 @@
                 <td>
                     <a href="@Url.Action("Edit", "Activities", new { id = activity.ActivityID })">Edit</a> |
                     <a href="@Url.Action("Delete", "Activities", new { id = activity.ActivityID })">Delete</a> |
-                    <a href="@Url.Action("ManageParticipants", "Activities", new { activityId = activity.ActivityID })">Manage Participants</a>
+                    <a href="@Url.Action("ManageParticipants", "Activities", new { activityId = activity.ActivityID })">Manage Participants</a> |
+                    <a href="@Url.Action("SupervisedBy", "Activities", new { id = activity.ActivityID })">See supervisors</a>
                 </td>
             </tr>
         }

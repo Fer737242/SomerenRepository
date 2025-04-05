@@ -1,0 +1,43 @@
+﻿@model Someren.Models.Student
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<div class="container container-main">
+    <h1 class="text-center">Edit Student</h1>
+
+    <form asp-action="Edit" method="post" class="mt-4">
+        <input type="hidden" id="student_n" name="Student_n" value="@Model.Student_n" />
+        <div class="mb-3">
+            <label for="first_name" class="form-label">First name:</label>
+            <input type="text" id="first_name" name="first_name" class="form-control" value="@Model.First_name" />
+        </div>
+
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Last name:</label>
+            <input type="text" id="last_name" name="last_name" class="form-control" value="@Model.Last_name" />
+        </div>
+
+        <div class="mb-3">
+            <label for="phone_n" class="form-label">Phone number:</label>
+            <input type="text" id="phone_n" name="phone_n" class="form-control" value="@Model.Phone_n" />
+        </div>
+        <div class="mb-3">
+            <label for="ClassN" class="form-label">Class Name:</label>
+            <input type="text" id="ClassN" name="ClassN" class="form-control" value="@Model.ClassN" />
+        </div>
+
+        @* <div class="mb-3"> *@
+        @*     <label for="Password" class="form-label">Password:</label> *@
+        @*     <input type="password" id="Password" name="Password" class="form-control" value="@Model.Password" /> *@
+        @* </div> *@
+
+        <button type="submit" class="btn btn-primary">Save</button>
+
+        <button class="btn btn-primary">
+            <a href="/Students/Index" style="color: white; text-decoration: none; display: block;">Back</a>
+        </button>
+
+    </form>
+   
+</div>

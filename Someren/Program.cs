@@ -14,10 +14,10 @@ namespace Someren
             builder.Services.AddSingleton<ILecturersRepository, DbLecturersRepository>();
             builder.Services.AddSingleton<IActivitiesRepository, DbActivitiesRepository>();
             builder.Services.AddSingleton<IRoomsRepository, DbRoomsRepository>();
+            builder.Services.AddSingleton<IParticipationRepository, ParticipationRepository>();
             builder.Services.AddScoped<IStudentsRepository, DbStudentsRepository>();
+            builder.Services.AddScoped<IParticipationRepository, ParticipationRepository>();
             builder.Services.AddScoped<IDrinkRepository, DbDrinkRepository>();
-            
-            
 
             var app = builder.Build();
 
@@ -25,15 +25,12 @@ namespace Someren
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.MapControllerRoute(

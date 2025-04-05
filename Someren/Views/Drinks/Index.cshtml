@@ -27,7 +27,7 @@
                 <td>@drink.Type</td>
                 <td>@drink.Drink_name</td>
                 <td>@drink.Alcoholic</td>
-                <td>@drink.Price.ToString("C")</td>
+                <td>@drink.Price.ToString("C", new System.Globalization.CultureInfo("nl-NL"))</td>
                 <td>@drink.Voucher</td>
             </tr>
         }

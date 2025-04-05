@@ -1,0 +1,44 @@
+﻿@model List<Someren.Models.Activities>
+
+@{
+    ViewData["Title"] = "Activities";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Activities</h1>
+    <button class="custom-btn">
+        <a href="/Activities/Create">Create new</a>
+    </button>
+</div>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>Activity ID</th>
+            <th>Activity Name</th>
+            <th>Start Time</th>
+            <th>Start Date</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var activity in Model)
+        {
+            <tr>
+                <td>@activity.ActivityID</td>
+                <td>@activity.ActivityName</td>
+                <td>@activity.StartTime</td>
+                <td>@activity.StartDate.ToString("dd-MM-yyyy")</td>
+               
+
+                <td>
+                    <a href="@Url.Action("Edit", "Activities", new { id = activity.ActivityID })">Edit</a> |
+                    <a href="@Url.Action("Delete", "Activities", new { id = activity.ActivityID })">Delete</a> |
+                    <a href="@Url.Action("SupervisedBy", "Activities", new { id= activity.ActivityID})">See supervisors </a>
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>

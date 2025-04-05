@@ -1,0 +1,46 @@
+﻿@model List<Someren.Models.Lecturer>
+
+@{
+    ViewData["Title"] = "Lecturer";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Lecturers</h1>
+    <!--<p>Number of users in the list: "Model.Count"</p>
+    </div> -->
+    <button class="custom-btn">
+        <a href="/Lecturers/Create">Create new</a>
+    </button>
+</div>
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>Employee Number</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone number</th>
+            <th>Age</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            foreach (var lecturer in Model)
+            {
+                <tr>
+                    <td>@lecturer.EmployeeN</td>
+                    <td>@lecturer.FirstName</td>
+                    <td>@lecturer.LastName</td>
+                    <td>@lecturer.PhoneN</td>
+                    <td>@lecturer.Age</td>
+                    <td>
+                        <a href="@Url.Action("Edit","Lecturers", new {EmployeeN = lecturer.EmployeeN})">Edit</a>
+                        <a href="@Url.Action("Delete", "Lecturers", new { EmployeeN = lecturer.EmployeeN})">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
